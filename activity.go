@@ -41,8 +41,8 @@ func callUrl(method string, url string, bodyContent *bytes.Buffer, accessToken s
 		return outResult
 	} else {
 		survey_response, _ := ioutil.ReadAll(succ_resp.Body)
-		hasError := gjson.Get(string(survey_response), "error.http_status_code").Int()
-		if hasError == 400 || hasError == 401 || hasError == 404 {
+		hasError := gjson.Get(string(survey_response), "error.http_status_code").String()
+		if hasError != "" {
 			outResult := `{ "Error" : { "message" : ` + gjson.Get(string(survey_response), "error.message").String() + ` } }`
 			fmt.Println(outResult)
 			//context.SetOutput("status", outResult)
@@ -61,12 +61,16 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 	senderEmail := context.GetInput("Sender's Email").(string)
 	recipientList := context.GetInput("recipientList").(string)
 	typeofEmail := context.GetInput("type").(string)
-	// recipientStatus := context.GetInput("recipient_status").(string)
+	recipientStatus := context.GetInput("recipient_status").(string)
 	subject := context.GetInput("Subject").(string)
 	body := context.GetInput("Body").(string)
 	surveyID := ""
 	method := ""
 	containError := ""
+	isInvite := false
+	if typeofEmail == "invite" {
+		isInvite = true
+	}
 
 	//get surveyId : API Call #1
 	method = "GET"
@@ -84,49 +88,73 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 	}
 
 	//set email invite and get Collector id , API Call #2
-	method = "POST"
 	collectorID := ""
 	collector_url := "https://api.surveymonkey.com/v3/surveys/" + surveyID + "/collectors"
-	jsonBody = []byte(`{"type":"email","sender_email":"` + senderEmail + `"}`)
-	reqCollectorID := callUrl(method, collector_url, bytes.NewBuffer(jsonBody), accessToken)
-	//	fmt.Println(reqCollectorID)
-	containError = gjson.Get(string(reqSurveyID), "Error").String()
+	reqCollectorID := ""
+	method = "GET"
+	jsonBody = []byte("")
+	reqCollectorID = callUrl(method, collector_url, bytes.NewBuffer(jsonBody), accessToken)
+	containError = gjson.Get(string(reqCollectorID), "Error").String()
 	if containError != "" {
 		context.SetOutput("status", containError)
 		return true, nil
 	} else {
-		collectorID = gjson.Get(reqCollectorID, "id").String()
-		fmt.Println("Collector ID: " + collectorID)
+		collectorList := gjson.Get(reqCollectorID, "data")
+		for _, item := range collectorList.Array() {
+			if strings.Contains(gjson.Get(item.String(), "name").String(), "Email") {
+				collectorID = gjson.Get(item.String(), "id").String()
+				fmt.Println("Collector ID: " + collectorID)
+				break
+			}
+		}
+	}
+	if collectorID == "" {
+		//collector already available so reuse it
+		method = "POST"
+		jsonBody = []byte(`{"type":"email","sender_email":"` + senderEmail + `"}`)
+		reqCollectorID = callUrl(method, collector_url, bytes.NewBuffer(jsonBody), accessToken)
+		if containError != "" {
+			context.SetOutput("status", containError)
+			return true, nil
+		} else {
+			collectorID = gjson.Get(reqCollectorID, "id").String()
+			fmt.Println("Collector ID: " + collectorID)
+		}
 	}
 
 	//get message ID , APICall #3
 	method = "POST"
 	messageID := ""
 	message_url := "https://api.surveymonkey.com/v3/collectors/" + collectorID + "/messages"
-	if typeofEmail == "invite" {
-		if body != "" {
-			surveyLink := "[SurveyLink]"
-			optLink := "[OptOutLink]"
-			footerLink := "[FooterLink]"
+	if body != "" {
+		surveyLink := "[SurveyLink]"
+		optLink := "[OptOutLink]"
+		footerLink := "[FooterLink]"
+		if isInvite {
 			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `","body_text":"` + body + "<a href=" + "\\" + "\"" + surveyLink + "\\" + "\"" + " >Take the survey!</a> <a href=" + "\\" + "\"" + optLink + "\\" + "\"" + ">Please remove me from your mailing list.</a> <a href=" + "\\" + "\"" + footerLink + "\\" + "\"" + ">Footer!</a>" + `"}`)
 		} else {
-			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `"}`)
+			jsonBody = []byte(`{"type":"` + typeofEmail + `","recipient_status":"` + recipientStatus + `","body_text":"` + body + "<a href=" + "\\" + "\"" + surveyLink + "\\" + "\"" + " >Take the survey!</a> <a href=" + "\\" + "\"" + optLink + "\\" + "\"" + ">Please remove me from your mailing list.</a> <a href=" + "\\" + "\"" + footerLink + "\\" + "\"" + ">Footer!</a>" + `"}`)
 		}
-		reqMessageID := callUrl(method, message_url, bytes.NewBuffer(jsonBody), accessToken)
-		containError = gjson.Get(string(reqMessageID), "Error").String()
-		if containError != "" {
-			context.SetOutput("status", containError)
-			return true, nil
-		} else {
-			messageID = gjson.Get(reqMessageID, "id").String()
-			fmt.Println("Message ID: " + messageID)
-		}
+	} else {
+		jsonBody = []byte(`{"type":"invite","subject":"` + subject + `","recipient_status":"` + recipientStatus + `"}`)
+	}
+	reqMessageID := callUrl(method, message_url, bytes.NewBuffer(jsonBody), accessToken)
+	containError = gjson.Get(string(reqMessageID), "Error").String()
+	if containError != "" {
+		context.SetOutput("status", containError)
+		return true, nil
+	} else {
+		messageID = gjson.Get(reqMessageID, "id").String()
+		fmt.Println("Message ID: " + messageID)
+	}
 
-		//add multiple email ids , API Call #4
+	//add multiple email ids , API Call #4
+	if isInvite {
 		method = "POST"
 		recipient_url := "https://api.surveymonkey.com/v3/collectors/" + collectorID + "/messages/" + messageID + "/recipients/bulk"
-		emailParent_Json := `{ "contacts": [`
 		emails := strings.Split(recipientList, ",")
+
+		emailParent_Json := `{ "contacts": [`
 		count := 0
 		for i := 0; i < len(emails); i++ {
 			innerJsonContent, _ := sjson.Set("", "email", emails[i])
