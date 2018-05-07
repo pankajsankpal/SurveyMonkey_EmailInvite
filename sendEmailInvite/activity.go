@@ -32,7 +32,6 @@ func callUrl(method string, url string, bodyContent *bytes.Buffer, accessToken s
 	request, _ := http.NewRequest(method, url, bodyContent)
 	request.Header.Set("Authorization", "bearer "+accessToken)
 	request.Header.Set("Content-Type", "application/json")
-	fmt.Println(bodyContent)
 	client := &http.Client{}
 	succ_resp, error_resp := client.Do(request)
 	if error_resp != nil {

@@ -46,7 +46,7 @@
     {
       "name": "recipientList",
       "type": "string",
-  	  "required": true
+  	  "required": false
     },
     {
       "name": "Subject",
