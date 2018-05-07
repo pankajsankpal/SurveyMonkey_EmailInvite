@@ -2,7 +2,7 @@
   "name": "sendEmailInvite",
   "version": "0.0.1",
   "type": "flogo:activity",
-  "ref": "github.com/pankajsankpal/SurveyMonkey_EmailInvite",
+  "ref": "github.com/pankajsankpal/SurveyMonkey_EmailInvite/sendEmailInvite",
   "description": "activity description",
   "author": "The Dummies",
   "inputs":[
