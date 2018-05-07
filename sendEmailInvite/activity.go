@@ -9,9 +9,13 @@ import (
 	"time"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
+	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
+
+//logger
+var log = logger.GetLogger("activity-go logger")
 
 // MyActivity is a stub for your Activity implementation
 type MyActivity struct {
@@ -73,6 +77,7 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 
 	//get surveyId : API Call #1
 	method = "GET"
+	log.Debugf("The Incoming Survey Name [%s]", surveyName)
 	surveyIdurl := "https://api.surveymonkey.com/v3/surveys?title=" + surveyName
 	var jsonBody = []byte("")
 	reqSurveyID := callUrl(method, surveyIdurl, bytes.NewBuffer(jsonBody), accessToken)
@@ -83,6 +88,7 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 		return true, nil
 	} else {
 		surveyID = gjson.Get(reqSurveyID, "data.0.id").String()
+		log.Debugf("srveyId: [%s]" surveyID)
 		fmt.Println("surveyId: " + surveyID)
 	}
 
