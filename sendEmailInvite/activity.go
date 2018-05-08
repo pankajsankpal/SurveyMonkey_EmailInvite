@@ -136,7 +136,11 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 			jsonBody = []byte(`{"type":"` + typeofEmail + `","recipient_status":"` + recipientStatus + `","body_text":"` + body + "<a href=" + "\\" + "\"" + surveyLink + "\\" + "\"" + " >Take the survey!</a> <a href=" + "\\" + "\"" + optLink + "\\" + "\"" + ">Please remove me from your mailing list.</a> <a href=" + "\\" + "\"" + footerLink + "\\" + "\"" + ">Footer!</a>" + `"}`)
 		}
 	} else {
-		jsonBody = []byte(`{"type":"invite","subject":"` + subject + `","recipient_status":"` + recipientStatus + `"}`)
+		if isInvite {
+			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `"}`)
+		} else {
+			jsonBody = []byte(`{"type":"` + typeofEmail + `","subject":"` + subject + `","recipient_status":"` + recipientStatus + `"}`)
+		}
 	}
 	reqMessageID, err := callUrl(method, message_url, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
