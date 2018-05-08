@@ -56,7 +56,7 @@ func callUrl(method string, url string, bodyContent *bytes.Buffer, accessToken s
 
 // Eval implements activity.Activity.Eval
 func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
-	// do eval
+	// Initialize variable
 	accessToken := context.GetInput("AuthToken").(string)
 	surveyName := context.GetInput("Survey Name").(string)
 	senderEmail := context.GetInput("Sender's Email").(string)
@@ -183,7 +183,7 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 	//add schedule email date , API Call #5
 	method = "POST"
 	send_url := "https://api.surveymonkey.com/v3/collectors/" + collectorID + "/messages/" + messageID + "/send"
-	curr_date := time.Now().Add(-328 * time.Minute).Format("2006-01-02T15:04:05+00:00") //SUBTRACTING 5:28 hrs FROM CURRENT TIMESTAMP SO THAT EMAIL CAN BE SENT 2 MIN AFTER THE REQUEST HITS
+	curr_date := time.Now().Format("2006-01-02T15:04:05+00:00") //SUBTRACTING 5:28 hrs FROM CURRENT TIMESTAMP SO THAT EMAIL CAN BE SENT 2 MIN AFTER THE REQUEST HITS
 	jsonBody = []byte(`{ "scheduled_date": "` + curr_date + `"}`)
 	_, err = callUrl(method, send_url, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
