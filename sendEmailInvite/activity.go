@@ -35,11 +35,10 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 	recipientStatus := context.GetInput("recipient_status").(string)
 	subject := context.GetInput("Subject").(string)
 	body := context.GetInput("Body").(string)
-	surveyID := ""
-	method := ""
+
 	//containError := ""
 
-	status, errResp := busslogic.SendEmail(accessToken, surveyName, senderEmail, recipientList, typeofEmail, recipientStatus, subject, body)
+	_, errResp := busslogic.SendEmail(accessToken, surveyName, senderEmail, recipientList, typeofEmail, recipientStatus, subject, body)
 	if errResp != nil {
 		log.Debugf("error occured " + errResp.Error())
 		context.SetOutput("status", errResp.Error())
