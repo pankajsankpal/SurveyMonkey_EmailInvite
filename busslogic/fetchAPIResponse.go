@@ -45,7 +45,7 @@ func callUrl(method string, url string, bodyContent *bytes.Buffer, accessToken s
 	}
 }
 
-func sendEmail( accessToken string, surveyName string, senderEmail string, recipientList string, typeofEmail string, recipientStatus string,subject string,body string) (resp bool,err error){
+func SendEmail( accessToken string, surveyName string, senderEmail string, recipientList string, typeofEmail string, recipientStatus string,subject string,body string) (resp bool,err error){
 
 if typeofEmail=="invite"{
   isInvite=true
