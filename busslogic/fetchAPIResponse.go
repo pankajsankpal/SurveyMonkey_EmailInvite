@@ -3,7 +3,6 @@ package busslogic
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"

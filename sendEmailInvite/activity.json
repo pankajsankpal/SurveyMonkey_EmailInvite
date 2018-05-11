@@ -1,8 +1,8 @@
 {
-  "name": "sendEmailInvite",
+  "name": "sendemailinvite",
   "version": "0.0.1",
   "type": "flogo:activity",
-  "ref": "github.com/pankajsankpal/SurveyMonkey_EmailInvite/sendEmailInvite",
+  "ref": "github.com/pankajsankpal/SurveyMonkey_EmailInvite/sendemailinvite",
   "description": "activity description",
   "author": "The Dummies",
   "inputs":[
@@ -40,28 +40,18 @@
             "completed",
             "responded"
           ],
-        "value": "",
-  	   "required": false
+        "value": ""
     },
     {
       "name": "recipientList",
-      "type": "string",
-  	  "required": false
+      "type": "string"
     },
     {
       "name": "Subject",
-      "type": "string",
-  	  "required": false
+      "type": "string"
     },
     {
       "name": "Body",
-      "type": "string",
-  	  "required": false
-    }
-  ],
-  "outputs": [
-    {
-      "name": "Status",
       "type": "string"
     }
   ]

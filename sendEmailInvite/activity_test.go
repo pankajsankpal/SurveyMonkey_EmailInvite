@@ -1,4 +1,4 @@
-package sendEmailInvite
+package sendemailinvite
 
 import (
 	"io/ioutil"
@@ -76,7 +76,7 @@ func TestEval(t *testing.T) {
 	tc.SetInput("Body", "we need this survey response as soon as possible..")
 	tc.SetInput("Subject", "")
 	tc.SetInput("recipientList", "")
-	tc.SetInput("recipient_status", "responded")
+	tc.SetInput("recipient_status", "completed")
 	act.Eval(tc)
 	//check result attr
 }

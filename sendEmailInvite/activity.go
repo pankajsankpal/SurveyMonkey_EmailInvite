@@ -1,4 +1,4 @@
-package sendEmailInvite
+package sendemailinvite
 
 import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
@@ -38,13 +38,13 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 
 	//containError := ""
 
-	_, errResp := busslogic.SendEmail(accessToken, surveyName, senderEmail, recipientList, typeofEmail, recipientStatus, subject, body)
-	if errResp != nil {
+	status, errResp := busslogic.SendEmail(accessToken, surveyName, senderEmail, recipientList, typeofEmail, recipientStatus, subject, body)
+	if errResp != nil && status {
 		log.Debugf("error occured " + errResp.Error())
 		context.SetOutput("status", errResp.Error())
 		return false, errResp
 	} else {
-		context.SetOutput("status", "Email sent successfully")
+		log.Infof("Emails send Successfully")
 	}
 	return true, nil
 
