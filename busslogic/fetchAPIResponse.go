@@ -1,4 +1,4 @@
-package busslogic
+package main
 
 import (
   "bytes"
@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
@@ -18,6 +17,12 @@ import (
 //logger
 var log = logger.GetLogger("activity-go logger")
 var isInvite bool = false
+var surveyID string= ""
+var method string= ""
+
+// func main(){
+//   sendEmail( "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ", "DemoServey","sankpal22pankaj@gmail.com","psankpal@tibco.com", "invite","","TestInvite","body string")
+// }
 
 func callUrl(method string, url string, bodyContent *bytes.Buffer, accessToken string) (succ string, err error) {
 	request, _ := http.NewRequest(method, url, bodyContent)
@@ -150,8 +155,7 @@ if typeofEmail=="invite"{
 			if succStatus_1 != "" || succStatus_2 != "" {
 				fmt.Println("emails added successfully...")
 			} else {
-				context.SetOutput("status", `{ "Error" : { "message" : "Error while adding recipients emails." }}`)
-				return true, nil
+				return false, errors.New("error while attaching bulk emails")
 			}
 		}
 	}

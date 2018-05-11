@@ -1,15 +1,9 @@
 package sendEmailInvite
 
 import (
-	"bytes"
-	"errors"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/tidwall/gjson"
+	"github.com/pankajsankpal/SurveyMonkey_EmailInvite/busslogic"
 )
 
 //logger
@@ -28,27 +22,6 @@ func NewActivity(metadata *activity.Metadata) activity.Activity {
 // Metadata implements activity.Activity.Metadata
 func (a *MyActivity) Metadata() *activity.Metadata {
 	return a.metadata
-}
-func callUrl(method string, url string, bodyContent *bytes.Buffer, accessToken string) (succ string, err error) {
-
-	request, _ := http.NewRequest(method, url, bodyContent)
-	request.Header.Set("Authorization", "bearer "+accessToken)
-	request.Header.Set("Content-Type", "application/json")
-	client := &http.Client{}
-	succ_resp, error_resp := client.Do(request)
-	if error_resp != nil {
-		return "", error_resp
-	} else {
-		survey_response, _ := ioutil.ReadAll(succ_resp.Body)
-		hasError := gjson.Get(string(survey_response), "error.http_status_code").String()
-		if hasError != "" {
-			outResult := `{ "Error" : { "message" : ` + gjson.Get(string(survey_response), "error.message").String() + ` } }`
-			fmt.Println(outResult)
-			return "", errors.New(outResult)
-		} else {
-			return string(survey_response), nil
-		}
-	}
 }
 
 // Eval implements activity.Activity.Eval
