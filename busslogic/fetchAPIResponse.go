@@ -3,7 +3,7 @@ package busslogic
 import (
 	"bytes"
 	"errors"
-  "fmt"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -107,11 +107,11 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 		surveyLink := "[SurveyLink]"
 		optLink := "[OptOutLink]"
 		footerLink := "[FooterLink]"
-    mandatoryContent:=  "\\n"+"Take survey: "+surveyLink+"\\n"+"Remove me from Mailing List: "+optLink+"\\n"+"Footer: "+footerLink
+		mandatoryContent := "\\n" + "Take survey: " + surveyLink + "\\n" + "Remove me from Mailing List: " + optLink + "\\n" + "Footer: " + footerLink
 		if isInvite {
-			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `","body_text":"`+body+mandatoryContent +`"}`)
-			} else {
-			jsonBody = []byte(`{"type":"` + typeofEmail + `","recipient_status":"` + recipientStatus + `","body_text":"`+body+ mandatoryContent+`"}`)
+			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `","body_text":"` + body + mandatoryContent + `"}`)
+		} else {
+			jsonBody = []byte(`{"type":"` + typeofEmail + `","recipient_status":"` + recipientStatus + `","body_text":"` + body + mandatoryContent + `"}`)
 		}
 	} else {
 		if isInvite {
