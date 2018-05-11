@@ -25,6 +25,7 @@ var method string
 
 func callUrl(method string, url string, bodyContent *bytes.Buffer, accessToken string) (succ string, err error) {
 	request, _ := http.NewRequest(method, url, bodyContent)
+	log.Infof(bodyContent)
 	request.Header.Set("Authorization", "bearer "+accessToken)
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
