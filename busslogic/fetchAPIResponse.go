@@ -14,15 +14,10 @@ import (
 )
 
 //logger and other var initialization
-var log = logger.GetLogger("activity-go logger")
+var log = logger.GetLogger("fetchAPIResponse logger")
 var isInvite bool
 var surveyID string
 var method string
-var surveyIdurl string = "https://api.surveymonkey.com/v3/surveys?title="
-var collectorUrl string = "https://api.surveymonkey.com/v3/surveys/"
-var messageUrl string = "https://api.surveymonkey.com/v3/collectors/"
-var recipientUrl string = "https://api.surveymonkey.com/v3/collectors/"
-var sendUrl string = "https://api.surveymonkey.com/v3/collectors/"
 
 // func main() {
 // 	SendEmail("z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ", "DemoServey", "sankpal22pankaj@gmail.com", "psankpal@tibco.com", "invite", "", "TestInvite", "body string")
@@ -49,6 +44,12 @@ func callUrl(method string, url string, bodyContent *bytes.Buffer, accessToken s
 }
 
 func SendEmail(accessToken string, surveyName string, senderEmail string, recipientList string, typeofEmail string, recipientStatus string, subject string, body string) (resp bool, err error) {
+
+	var surveyIdurl string = "https://api.surveymonkey.com/v3/surveys?title="
+	var collectorUrl string = "https://api.surveymonkey.com/v3/surveys/"
+	var messageUrl string = "https://api.surveymonkey.com/v3/collectors/"
+	var recipientUrl string = "https://api.surveymonkey.com/v3/collectors/"
+	var sendUrl string = "https://api.surveymonkey.com/v3/collectors/"
 
 	if typeofEmail == "invite" {
 		isInvite = true
