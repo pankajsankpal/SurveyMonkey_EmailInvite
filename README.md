@@ -53,7 +53,7 @@ SJSON is a Go package that provides a simple way to set a value in a json docume
             "has_not_responded",
             "partially_responded"
           ],
-        "value": ""
+        "value": "has_not_responded"
     },
     {
       "name": "recipientList",

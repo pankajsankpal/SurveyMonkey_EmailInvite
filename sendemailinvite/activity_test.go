@@ -48,7 +48,7 @@ func TestEval(t *testing.T) {
 	tc := test.NewTestActivityContext(getActivityMetadata())
 
 	//setup attrs testcase#1
-	tc.SetInput("authToken", "8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
+	tc.SetInput("authToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
 	tc.SetInput("surveyName", "FLG_2_QA_Variety")
 	tc.SetInput("type", "invite")
 	tc.SetInput("senderEmail", "sankpal22pankaj@gmail.com")
@@ -59,7 +59,7 @@ func TestEval(t *testing.T) {
 	act.Eval(tc)
 
 	// testcase #2
-	tc.SetInput("authToken", "8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
+	tc.SetInput("authToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
 	tc.SetInput("surveyName", "FLG_2_QA_Variety")
 	tc.SetInput("type", "reminder")
 	tc.SetInput("senderEmail", "sankpal22pankaj@gmail.com")

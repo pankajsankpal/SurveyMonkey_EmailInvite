@@ -1,8 +1,6 @@
 package sendemailinvite
 
 import (
-	"fmt"
-
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/pankajsankpal/SurveyMonkey_EmailInvite/busslogic"
@@ -10,6 +8,17 @@ import (
 
 //logger
 var log = logger.GetLogger("sendemailinvite_activity.go logger")
+
+const (
+	ivAccessToken     = "authToken"
+	ivSurveyName      = "surveyName"
+	ivSenderEmail     = "senderEmail"
+	ivRecipientList   = "recipientList"
+	ivTypeofEmail     = "type"
+	ivRecipientStatus = "recipientStatus"
+	ivSubject         = "subject"
+	ivBody            = "body"
+)
 
 // MyActivity is a stub for your Activity implementation
 type MyActivity struct {
@@ -29,22 +38,23 @@ func (a *MyActivity) Metadata() *activity.Metadata {
 // Eval implements activity.Activity.Eval
 func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 	// Initialize variable
-	accessToken := context.GetInput("authToken").(string)
-	surveyName := context.GetInput("surveyName").(string)
-	senderEmail := context.GetInput("senderEmail").(string)
-	recipientList := context.GetInput("recipientList").(string)
-	typeofEmail := context.GetInput("type").(string)
-	recipientStatus := context.GetInput("recipientStatus").(string)
-	subject := context.GetInput("subject").(string)
-	body := context.GetInput("body").(string)
+	accessToken := context.GetInput(ivAccessToken).(string)
+	surveyName := context.GetInput(ivSurveyName).(string)
+	senderEmail := context.GetInput(ivSenderEmail).(string)
+	recipientList := context.GetInput(ivRecipientList).(string)
+	typeofEmail := context.GetInput(ivTypeofEmail).(string)
+	recipientStatus := context.GetInput(ivRecipientStatus).(string)
+	subject := context.GetInput(ivSubject).(string)
+	body := context.GetInput(ivBody).(string)
 
 	//containError := ""
-	status, errResp := busslogic.SendEmail(accessToken, surveyName, senderEmail, recipientList, typeofEmail, recipientStatus, subject, body)
-	if errResp != nil && status {
-		fmt.Printf("inside if")
+	_, errResp := busslogic.SendEmail(accessToken, surveyName, senderEmail, recipientList, typeofEmail, recipientStatus, subject, body)
+	if errResp != nil {
 		log.Errorf("error: [%s]", errResp.Error())
 		return false, errResp
+	} else {
+		log.Infof("Email sent successfully")
 	}
-	fmt.Printf("succes..")
+	//fmt.Printf(status)
 	return true, nil
 }
