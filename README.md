@@ -7,7 +7,7 @@ This activity allows the user to send Email invitations for the surveys to a use
 ### Flogo CLI
 
 ```
-flogo install github.com/pankajsankpal/SurveyMonkey_EmailInvite/sendEmailInvite
+flogo install github.com/pankajsankpal/SurveyMonkey_EmailInvite/sendemailinvite
 ```
 
 ### Third-party libraries used
