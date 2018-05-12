@@ -1,0 +1,58 @@
+{
+  "name": "sendemailinvite",
+  "version": "0.0.1",
+  "type": "flogo:activity",
+  "ref": "github.com/pankajsankpal/SurveyMonkey_EmailInvite/sendemailinvite",
+  "description": "activity description",
+  "author": "The Dummies",
+  "inputs":[
+    {
+      "name": "Survey Name",
+      "type": "string",
+	  "required": true
+    },
+	{
+      "name": "AuthToken",
+      "type": "string",
+	  "required": true
+    },
+	{
+      "name": "Sender's Email",
+      "type": "string",
+	  "required": true
+    },
+	{
+      "name": "type",
+      "type": "string",
+	  "allowed": [
+        "invite",
+        "reminder",
+        "thank_you"
+      ],
+	  "value": "invite",
+    "required": true
+    },
+    {
+        "name": "recipient_status",
+        "type": "string",
+        "allowed": [
+            "has_not_responded",
+            "completed",
+            "responded"
+          ],
+        "value": ""
+    },
+    {
+      "name": "recipientList",
+      "type": "string"
+    },
+    {
+      "name": "Subject",
+      "type": "string"
+    },
+    {
+      "name": "Body",
+      "type": "string"
+    }
+  ]
+}
