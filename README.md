@@ -1,6 +1,6 @@
 # SurveyMonkey_EmailInvite
 
-This activity allows the user to send Email invitations for the surveys to a user group, reminding them and sending thank you emails upon successfully completing the surveys.It makes set of API calls to achieve this functionality.
+This activity allows the user to send Email invitations for the surveys to a user group, reminding them and sending thank you emails upon successfully completion of the surveys.It makes set of API calls to achieve this functionality.
 
 ## Installation
 
