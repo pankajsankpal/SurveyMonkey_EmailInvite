@@ -22,28 +22,26 @@
 	  "required": true
     },
 	{
-      "name": "type",
+      "name": "Type",
       "type": "string",
 	  "allowed": [
         "invite",
-        "reminder",
-        "thank_you"
+        "reminder"
       ],
 	  "value": "invite",
     "required": true
     },
     {
-        "name": "recipient_status",
+        "name": "Recipient Status",
         "type": "string",
         "allowed": [
             "has_not_responded",
-            "completed",
-            "responded"
+            "partially_responded"
           ],
-        "value": ""
+        "value": "has_not_responded"
     },
     {
-      "name": "recipientList",
+      "name": "Recipient List",
       "type": "string"
     },
     {

@@ -26,9 +26,9 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 	accessToken := context.GetInput("AuthToken").(string)
 	surveyName := context.GetInput("Survey Name").(string)
 	senderEmail := context.GetInput("Sender's Email").(string)
-	recipientList := context.GetInput("recipientList").(string)
-	typeofEmail := context.GetInput("type").(string)
-	recipientStatus := context.GetInput("recipient_status").(string)
+	recipientList := context.GetInput("Recipient List").(string)
+	typeofEmail := context.GetInput("Type").(string)
+	recipientStatus := context.GetInput("Recipient Status").(string)
 	subject := context.GetInput("Subject").(string)
 	body := context.GetInput("Body").(string)
 
