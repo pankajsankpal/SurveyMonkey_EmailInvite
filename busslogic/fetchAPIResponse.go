@@ -16,7 +16,6 @@ import (
 
 //logger and other var initialization
 var log = logger.GetLogger("fetchAPIResponse logger")
-var isInvite bool
 var surveyID string
 var method string
 
@@ -45,6 +44,7 @@ func callURL(method string, url string, bodyContent *bytes.Buffer, accessToken s
 // SendEmail func will make a set of API Calls to send email
 func SendEmail(accessToken string, surveyName string, senderEmail string, recipientList string, typeofEmail string, recipientStatus string, subject string, body string) (resp bool, err error) {
 
+	var isInvite = false
 	var surveyIdurl = "https://api.surveymonkey.com/v3/surveys?title="
 	var collectorURL = "https://api.surveymonkey.com/v3/surveys/"
 	var messageURL = "https://api.surveymonkey.com/v3/collectors/"
