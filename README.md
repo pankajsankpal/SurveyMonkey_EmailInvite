@@ -1,6 +1,6 @@
 # SurveyMonkey_EmailInvite
 
-This activity allows the user to send Email invitations for the surveys to a user group, reminding them and sending thank you emails upon successfully completion of the surveys.It makes set of API calls to achieve this functionality.
+This activity allows the user to send Email invitations for the surveys to a user group, reminding them and sending thank you emails upon successfully completion of the surveys.
 
 ## Installation
 
@@ -85,7 +85,7 @@ SJSON is a Go package that provides a very fast and simple way to set a value in
 | recipient_status  | False | String | Used In case of reminder and thank_you message (has_not_completed,completed,responded) |
 | recipientList  | False | String | comma(,) separated list of user |
 | Subject  | False | String | Subject of the email message to be sent to recipients |
-| Body  | False | String |  |
+| Body  | False | String |  Body for the email|
 
 
 
