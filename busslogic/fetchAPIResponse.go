@@ -3,6 +3,7 @@ package busslogic
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -74,6 +75,7 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	jsonBody = []byte("")
 	reqCollectorID, err = callURL(method, collectorURL, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
+		fmt.Printf(err.Error())
 		return false, err
 	}
 	collectorList := gjson.Get(reqCollectorID, "data")
