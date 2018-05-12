@@ -68,15 +68,6 @@ func TestEval(t *testing.T) {
 	tc.SetInput("recipientList", "psankpal@gmail.com")
 	tc.SetInput("recipient_status", "has_not_responded")
 	act.Eval(tc)
-	//testcase #3
-	tc.SetInput("AuthToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
-	tc.SetInput("Survey Name", "FLG_2_QA_Variety")
-	tc.SetInput("type", "thank_you")
-	tc.SetInput("Sender's Email", "sankpal22pankaj@gmail.com")
-	tc.SetInput("Body", "")
-	tc.SetInput("Subject", "")
-	tc.SetInput("recipientList", "")
-	tc.SetInput("recipient_status", "completed")
-	act.Eval(tc)
+
 	//check result attr
 }

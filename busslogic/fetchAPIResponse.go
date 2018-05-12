@@ -3,7 +3,6 @@ package busslogic
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -25,7 +24,6 @@ var method string
 
 func callURL(method string, url string, bodyContent *bytes.Buffer, accessToken string) (succ string, err error) {
 	request, _ := http.NewRequest(method, url, bodyContent)
-	fmt.Printf(bodyContent.String())
 	request.Header.Set("Authorization", "bearer "+accessToken)
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
@@ -52,7 +50,6 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	var recipientURL = "https://api.surveymonkey.com/v3/collectors/"
 	var sendURL = "https://api.surveymonkey.com/v3/collectors/"
 
-	fmt.Printf("typeofEmail:" + typeofEmail)
 	if typeofEmail == "invite" {
 		isInvite = true
 	}
@@ -108,14 +105,12 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 		footerLink := "[FooterLink]"
 		mandatoryContent := "\\n" + "Take survey: " + surveyLink + "\\n" + "Remove me from Mailing List: " + optLink + "\\n" + "Footer: " + footerLink
 		if isInvite {
-			fmt.Printf("inside invite")
 			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `","body_text":"` + body + mandatoryContent + `"}`)
 		} else {
 			jsonBody = []byte(`{"type":"` + typeofEmail + `","recipient_status":"` + recipientStatus + `","body_text":"` + body + mandatoryContent + `"}`)
 		}
 	} else {
 		if isInvite {
-			fmt.Printf("inside invite")
 			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `"}`)
 		} else {
 			jsonBody = []byte(`{"type":"` + typeofEmail + `","subject":"` + subject + `","recipient_status":"` + recipientStatus + `"}`)
