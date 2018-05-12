@@ -20,11 +20,12 @@ var surveyID string
 var method string
 
 // func main() {
-// 	SendEmail("z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ", "DemoServey", "sankpal22pankaj@gmail.com", "psankpal@tibco.com", "reminder", "has_not_responded", "TestInvite", "body string")
+// 	SendEmail("z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ", "DemoServey", "sankpal22pankaj@gmail.com", "psankpal@tibco.com", "thank_you", "completed", "TestInvite", "")
 // }
 
 func callURL(method string, url string, bodyContent *bytes.Buffer, accessToken string) (succ string, err error) {
 	request, _ := http.NewRequest(method, url, bodyContent)
+	fmt.Printf(bodyContent.String())
 	request.Header.Set("Authorization", "bearer "+accessToken)
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
@@ -128,34 +129,32 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	messageID = gjson.Get(reqMessageID, "id").String()
 
 	//add multiple email ids , API Call #4
-	if isInvite {
-		method = "POST"
-		recipientURL = recipientURL + collectorID + "/messages/" + messageID + "/recipients/bulk"
-		emails := strings.Split(recipientList, ",")
-		emailParentJSON := `{ "contacts": [`
-		count := 0
-		for i := 0; i < len(emails); i++ {
-			innerJSONContent, _ := sjson.Set("", "email", emails[i])
-			emailParentJSON = emailParentJSON + innerJSONContent
-			if count < len(emails)-1 {
-				count = count + 1
-				emailParentJSON = emailParentJSON + ","
-			}
+	method = "POST"
+	recipientURL = recipientURL + collectorID + "/messages/" + messageID + "/recipients/bulk"
+	emails := strings.Split(recipientList, ",")
+	emailParentJSON := `{ "contacts": [`
+	count := 0
+	for i := 0; i < len(emails); i++ {
+		innerJSONContent, _ := sjson.Set("", "email", emails[i])
+		emailParentJSON = emailParentJSON + innerJSONContent
+		if count < len(emails)-1 {
+			count = count + 1
+			emailParentJSON = emailParentJSON + ","
 		}
-		emailParentJSON = emailParentJSON + "]}"
-		jsonBody = []byte(emailParentJSON)
-		reqRecipientBulk, err := callURL(method, recipientURL, bytes.NewBuffer(jsonBody), accessToken)
-		if err != nil {
-			log.Errorf("error while attatching a message body :[%s]", err.Error())
-			return false, err
-		}
-		succStatus1 := gjson.Get(reqRecipientBulk, "succeeded.#").String()
-		succStatus2 := gjson.Get(reqRecipientBulk, "existing.#").String()
-		if succStatus1 != "" || succStatus2 != "" {
-			log.Infof("emails added successfully")
-		} else {
-			return false, errors.New("error while attaching bulk emails")
-		}
+	}
+	emailParentJSON = emailParentJSON + "]}"
+	jsonBody = []byte(emailParentJSON)
+	reqRecipientBulk, err := callURL(method, recipientURL, bytes.NewBuffer(jsonBody), accessToken)
+	if err != nil {
+		log.Errorf("error while attatching a message body :[%s]", err.Error())
+		return false, err
+	}
+	succStatus1 := gjson.Get(reqRecipientBulk, "succeeded.#").String()
+	succStatus2 := gjson.Get(reqRecipientBulk, "existing.#").String()
+	if succStatus1 != "" || succStatus2 != "" {
+		log.Infof("emails added successfully")
+	} else {
+		return false, errors.New("error while attaching bulk emails")
 	}
 
 	//add schedule email date , API Call #5
