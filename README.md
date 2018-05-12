@@ -93,3 +93,62 @@ SJSON is a Go package that provides a very fast and simple way to set a value in
 This activity willaccepts the inputs in following way,
 
 ```
+{
+          "id": "sendemailinvite_2",
+          "name": "sendemailinvite",
+          "description": "activity description",
+          "type": 1,
+          "activityType": "sendemailinvite",
+          "activityRef": "github.com/pankajsankpal/SurveyMonkey_EmailInvite/sendemailinvite",
+          "attributes": [
+            {
+              "name": "Survey Name",
+              "value": "DemoServey",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "AuthToken",
+              "value": "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Sender's Email",
+              "value": "sankpal22pankaj@gmail.com",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "value": "invite",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "recipient_status",
+              "value": "",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "recipientList",
+              "value": "psankpal@tibco.com,anansing@tibco.com",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "Subject",
+              "value": "testEmail",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "Body",
+              "value": "Body Content",
+              "required": false,
+              "type": "string"
+            }
+          ]
+       }
+```
