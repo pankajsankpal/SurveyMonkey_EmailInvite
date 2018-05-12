@@ -1,6 +1,8 @@
 package sendemailinvite
 
 import (
+	"fmt"
+
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/pankajsankpal/SurveyMonkey_EmailInvite/busslogic"
@@ -39,8 +41,10 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error) {
 	//containError := ""
 	status, errResp := busslogic.SendEmail(accessToken, surveyName, senderEmail, recipientList, typeofEmail, recipientStatus, subject, body)
 	if errResp != nil && status {
-		log.Errorf("error: [%s]", err.Error())
+		fmt.Printf("inside if")
+		log.Errorf("error: [%s]", errResp.Error())
 		return false, errResp
 	}
+	fmt.Printf("succes..")
 	return true, nil
 }

@@ -41,8 +41,7 @@ SJSON is a Go package that provides a simple way to set a value in a json docume
       "type": "string",
 	  "allowed": [
         "invite",
-        "reminder",
-        "thank_you"
+        "reminder"
       ],
 	  "value": "invite",
     "required": true
@@ -52,8 +51,7 @@ SJSON is a Go package that provides a simple way to set a value in a json docume
         "type": "string",
         "allowed": [
             "has_not_responded",
-            "completed",
-            "responded"
+            "partially_responded"
           ],
         "value": ""
     },
