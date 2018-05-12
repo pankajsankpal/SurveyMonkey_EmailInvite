@@ -65,7 +65,7 @@ func TestEval(t *testing.T) {
 	tc.SetInput("Sender's Email", "sankpal22pankaj@gmail.com")
 	tc.SetInput("Body", "")
 	tc.SetInput("Subject", "Gathering inputs")
-	tc.SetInput("recipientList", "")
+	tc.SetInput("recipientList", "psankpal@gmail.com")
 	tc.SetInput("recipient_status", "has_not_responded")
 	act.Eval(tc)
 	//testcase #3
@@ -75,7 +75,7 @@ func TestEval(t *testing.T) {
 	tc.SetInput("Sender's Email", "sankpal22pankaj@gmail.com")
 	tc.SetInput("Body", "we need this survey response as soon as possible..")
 	tc.SetInput("Subject", "")
-	tc.SetInput("recipientList", "")
+	tc.SetInput("recipientList", "psankpal@gmail.com")
 	tc.SetInput("recipient_status", "completed")
 	act.Eval(tc)
 	//check result attr
