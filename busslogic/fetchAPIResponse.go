@@ -3,6 +3,7 @@ package busslogic
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -53,7 +54,7 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	if typeofEmail == "invite" {
 		isInvite = true
 	}
-
+	fmt.Printf(isInvite)
 	//get surveyID , API call #1
 	method = "GET"
 	surveyIdurl = surveyIdurl + surveyName

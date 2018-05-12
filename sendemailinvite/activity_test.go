@@ -75,7 +75,7 @@ func TestEval(t *testing.T) {
 	tc.SetInput("Sender's Email", "sankpal22pankaj@gmail.com")
 	tc.SetInput("Body", "")
 	tc.SetInput("Subject", "")
-	tc.SetInput("recipientList", "psankpal@gmail.com")
+	tc.SetInput("recipientList", "")
 	tc.SetInput("recipient_status", "completed")
 	act.Eval(tc)
 	//check result attr
