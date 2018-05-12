@@ -1,8 +1,9 @@
-package busslogic
+package main
 
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -16,22 +17,25 @@ import (
 var surveyID string
 var method string
 
-// func main() {
-// 	_, issue := SendEmail("z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ", "DemoServey", "sankpal22pankaj@gmail.com", "psankpal@tibco.com", "reminder", "has_not_responded", "TestInvite", "")
-// 	if issue != nil {
-// 		fmt.Printf(issue.Error())
-// 	}
-// }
+func main() {
+	_, issue := SendEmail("z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ", "DemoServey", "sankpal22pankaj@gmail.com", "psankpal@tibco.com", "reminder", "partially_responded", "TestInvite", "")
+	if issue != nil {
+		fmt.Printf(issue.Error())
+	}
+}
 
 func callURL(method string, url string, bodyContent *bytes.Buffer, accessToken string) (succ string, err error) {
 	request, _ := http.NewRequest(method, url, bodyContent)
 	request.Header.Set("Authorization", "bearer "+accessToken)
 	request.Header.Set("Content-Type", "application/json")
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: time.Second * 5,
+	}
 	succResp, errorResp := client.Do(request)
 	if errorResp != nil {
 		return "", errorResp
 	}
+	defer succResp.Body.Close()
 	surveyResponse, _ := ioutil.ReadAll(succResp.Body)
 	hasError := gjson.Get(string(surveyResponse), "error.http_status_code").String()
 	if hasError != "" {

@@ -1,10 +1,10 @@
 {
-  "name": "sendemailinvite",
+  "name": "SurveyMonkey EmailInvite",
   "version": "0.0.1",
   "type": "flogo:activity",
   "ref": "github.com/pankajsankpal/SurveyMonkey_EmailInvite/sendemailinvite",
   "description": "activity description",
-  "author": "The Dummies",
+  "author": "Team LetsFlogo",
   "inputs":[
     {
       "name": "surveyName",
@@ -38,7 +38,7 @@
             "has_not_responded",
             "partially_responded"
           ],
-        "value": "has_not_responded"
+        "value": ""
     },
     {
       "name": "recipientList",
