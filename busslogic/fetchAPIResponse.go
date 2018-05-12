@@ -107,12 +107,14 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 		footerLink := "[FooterLink]"
 		mandatoryContent := "\\n" + "Take survey: " + surveyLink + "\\n" + "Remove me from Mailing List: " + optLink + "\\n" + "Footer: " + footerLink
 		if isInvite {
+			fmt.Printf("inside invite")
 			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `","body_text":"` + body + mandatoryContent + `"}`)
 		} else {
 			jsonBody = []byte(`{"type":"` + typeofEmail + `","recipient_status":"` + recipientStatus + `","body_text":"` + body + mandatoryContent + `"}`)
 		}
 	} else {
 		if isInvite {
+			fmt.Printf("inside invite")
 			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `"}`)
 		} else {
 			jsonBody = []byte(`{"type":"` + typeofEmail + `","subject":"` + subject + `","recipient_status":"` + recipientStatus + `"}`)
