@@ -51,10 +51,11 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	var recipientURL = "https://api.surveymonkey.com/v3/collectors/"
 	var sendURL = "https://api.surveymonkey.com/v3/collectors/"
 
+	fmt.Printf("typeofEmail:" + typeofEmail)
 	if typeofEmail == "invite" {
 		isInvite = true
 	}
-	fmt.Printf(isInvite)
+
 	//get surveyID , API call #1
 	method = "GET"
 	surveyIdurl = surveyIdurl + surveyName
