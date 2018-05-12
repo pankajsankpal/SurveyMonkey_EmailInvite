@@ -8,13 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
 
-//logger and other var initialization
-var log = logger.GetLogger("fetchAPIResponse logger")
+//lvar declaration
 var surveyID string
 var method string
 
@@ -34,7 +32,7 @@ func callURL(method string, url string, bodyContent *bytes.Buffer, accessToken s
 	surveyResponse, _ := ioutil.ReadAll(succResp.Body)
 	hasError := gjson.Get(string(surveyResponse), "error.http_status_code").String()
 	if hasError != "" {
-		outResult := `{ "Error" : { "message" : ` + gjson.Get(string(surveyResponse), "error.message").String() + ` } }`
+		outResult := gjson.Get(string(surveyResponse), "error.message").String()
 		return "", errors.New(outResult)
 	}
 	return string(surveyResponse), nil
@@ -60,11 +58,10 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	var jsonBody = []byte("")
 	reqSurveyID, err := callURL(method, surveyIdurl, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
-		log.Errorf("error while fetching surveyID [%s]", err.Error())
 		return false, err
 	}
 	surveyID = gjson.Get(reqSurveyID, "data.0.id").String()
-	log.Infof("surveyId: [%s]", surveyID)
+	//log.Infof("surveyId: [%s]", surveyID)
 
 	//set email invite and get Collector id , API Call #2
 	collectorID := ""
@@ -74,7 +71,6 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	jsonBody = []byte("")
 	reqCollectorID, err = callURL(method, collectorURL, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
-		log.Errorf("error while fetching collectorID: [%s]", err.Error())
 		return false, err
 	}
 	collectorList := gjson.Get(reqCollectorID, "data")
@@ -89,7 +85,6 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 		jsonBody = []byte(`{"type":"email","sender_email":"` + senderEmail + `"}`)
 		reqCollectorID, err = callURL(method, collectorURL, bytes.NewBuffer(jsonBody), accessToken)
 		if err != nil {
-			log.Errorf("error while fetching collectorID [%s] ", err.Error())
 			return false, err
 		}
 		collectorID = gjson.Get(reqCollectorID, "id").String()
@@ -118,7 +113,6 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	}
 	reqMessageID, err := callURL(method, messageURL, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
-		log.Errorf("error while fetching messageID: [%s]", err.Error())
 		return false, err
 	}
 	messageID = gjson.Get(reqMessageID, "id").String()
@@ -141,15 +135,12 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	jsonBody = []byte(emailParentJSON)
 	reqRecipientBulk, err := callURL(method, recipientURL, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
-		log.Errorf("error while attatching a message body :[%s]", err.Error())
 		return false, err
 	}
 	succStatus1 := gjson.Get(reqRecipientBulk, "succeeded.#").String()
 	succStatus2 := gjson.Get(reqRecipientBulk, "existing.#").String()
-	if succStatus1 != "" || succStatus2 != "" {
-		log.Infof("emails added successfully")
-	} else {
-		return false, errors.New("error while attaching bulk emails")
+	if !(succStatus1 != "" || succStatus2 != "") {
+		return false, errors.New("emails not added")
 	}
 
 	//add schedule email date , API Call #5
@@ -159,7 +150,6 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	jsonBody = []byte(`{ "scheduled_date": "` + currDate + `"}`)
 	_, err = callURL(method, sendURL, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
-		log.Errorf("error while sending emails: [%s]", err.Error())
 		return false, err
 	}
 	return true, nil

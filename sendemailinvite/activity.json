@@ -7,22 +7,22 @@
   "author": "The Dummies",
   "inputs":[
     {
-      "name": "Survey Name",
+      "name": "surveyName",
       "type": "string",
 	  "required": true
     },
 	{
-      "name": "AuthToken",
+      "name": "authToken",
       "type": "string",
 	  "required": true
     },
 	{
-      "name": "Sender's Email",
+      "name": "senderEmail",
       "type": "string",
 	  "required": true
     },
 	{
-      "name": "Type",
+      "name": "type",
       "type": "string",
 	  "allowed": [
         "invite",
@@ -32,7 +32,7 @@
     "required": true
     },
     {
-        "name": "Recipient Status",
+        "name": "recipientStatus",
         "type": "string",
         "allowed": [
             "has_not_responded",
@@ -41,15 +41,15 @@
         "value": "has_not_responded"
     },
     {
-      "name": "Recipient List",
+      "name": "recipientList",
       "type": "string"
     },
     {
-      "name": "Subject",
+      "name": "subject",
       "type": "string"
     },
     {
-      "name": "Body",
+      "name": "body",
       "type": "string"
     }
   ]

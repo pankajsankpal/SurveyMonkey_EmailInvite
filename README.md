@@ -22,17 +22,17 @@ SJSON is a Go package that provides a simple way to set a value in a json docume
 {
 "inputs":[
     {
-      "name": "Survey Name",
+      "name": "surveyName",
       "type": "string",
 	  "required": true
     },
 	{
-      "name": "AuthToken",
+      "name": "authToken",
       "type": "string",
 	  "required": true
     },
 	{
-      "name": "Sender's Email",
+      "name": "senderEmail",
       "type": "string",
 	  "required": true
     },
@@ -48,7 +48,7 @@ SJSON is a Go package that provides a simple way to set a value in a json docume
     "required": true
     },
     {
-        "name": "recipient_status",
+        "name": "recipientStatus",
         "type": "string",
         "allowed": [
             "has_not_responded",
@@ -62,11 +62,11 @@ SJSON is a Go package that provides a simple way to set a value in a json docume
       "type": "string"
     },
     {
-      "name": "Subject",
+      "name": "subject",
       "type": "string"
     },
     {
-      "name": "Body",
+      "name": "body",
       "type": "string"
     }
   ]
@@ -78,14 +78,14 @@ SJSON is a Go package that provides a simple way to set a value in a json docume
 
 | Name | Required | Type | Description |
 | ---- | -------- | ---- |------------ |
-| Survey Name | True | String | Name of the survey |
-| AuthToken | True | String | Authentication Token for user |
-| Sender's Email  | True | String | Sender email for email collectors|
-| Type  | True | String | Type of email(invite,reminder) |
-| Recipient Status  | False | String | If type is 'reminder’, acceptable values are: 'has_not_responded’ or 'partially_responded’, with the default being 'has_not_responded’.|
-| Recipient List  | False | String | comma(,) separated list of user |
-| Subject  | False | String | Subject of the email message to be sent to recipients |
-| Body  | False | String |  Body for the email|
+| surveyName | True | String | Name of the survey |
+| authToken | True | String | Authentication Token for user |
+| senderEmail  | True | String | Sender email for email collectors|
+| type  | True | String | Type of email(invite,reminder) |
+| recipientStatus  | False | String | If type is 'reminder', acceptable values are: 'has_not_responded’ or 'partially_responded’, with the default being 'has_not_responded’.|
+| recipientList  | False | String | comma(,) separated list of user |
+| subject  | False | String | subject of the email message to be sent to recipients |
+| body  | False | String |  Body for the email|
 
 
 
@@ -102,49 +102,49 @@ This activity will accept the inputs in following way,
           "activityRef": "github.com/pankajsankpal/SurveyMonkey_EmailInvite/sendemailinvite",
           "attributes": [
             {
-              "name": "Survey Name",
+              "name": "surveyName",
               "value": "DemoServey",
               "required": true,
               "type": "string"
             },
             {
-              "name": "AuthToken",
+              "name": "authToken",
               "value": "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ",
               "required": true,
               "type": "string"
             },
             {
-              "name": "Sender's Email",
+              "name": "senderEmail",
               "value": "sankpal22pankaj@gmail.com",
               "required": true,
               "type": "string"
             },
             {
-              "name": "Type",
+              "name": "type",
               "value": "invite",
               "required": true,
               "type": "string"
             },
             {
-              "name": "Recipient Status"
+              "name": "recipientStatus"
               "value": "",
               "required": false,
               "type": "string"
             },
             {
-              "name": "Recipient List",
+              "name": "recipientList",
               "value": "psankpal@tibco.com,anansing@tibco.com",
               "required": false,
               "type": "string"
             },
             {
-              "name": "Subject",
+              "name": "subject",
               "value": "testEmail",
               "required": false,
               "type": "string"
             },
             {
-              "name": "Body",
+              "name": "body",
               "value": "Body Content",
               "required": false,
               "type": "string"

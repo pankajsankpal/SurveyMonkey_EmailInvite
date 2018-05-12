@@ -48,25 +48,25 @@ func TestEval(t *testing.T) {
 	tc := test.NewTestActivityContext(getActivityMetadata())
 
 	//setup attrs testcase#1
-	tc.SetInput("AuthToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
-	tc.SetInput("Survey Name", "FLG_2_QA_Variety")
+	tc.SetInput("authToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
+	tc.SetInput("surveyName", "FLG_2_QA_Variety")
 	tc.SetInput("type", "invite")
-	tc.SetInput("Sender's Email", "sankpal22pankaj@gmail.com")
-	tc.SetInput("Body", "")
-	tc.SetInput("Subject", "Gathering inputs")
+	tc.SetInput("senderEmail", "sankpal22pankaj@gmail.com")
+	tc.SetInput("body", "")
+	tc.SetInput("subject", "Gathering inputs")
 	tc.SetInput("recipientList", "psankpal@tibco.com")
-	tc.SetInput("recipient_status", "responded")
+	tc.SetInput("recipientStatus", "responded")
 	act.Eval(tc)
 
 	// testcase #2
-	tc.SetInput("AuthToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
-	tc.SetInput("Survey Name", "FLG_2_QA_Variety")
+	tc.SetInput("authToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
+	tc.SetInput("surveyName", "FLG_2_QA_Variety")
 	tc.SetInput("type", "reminder")
-	tc.SetInput("Sender's Email", "sankpal22pankaj@gmail.com")
-	tc.SetInput("Body", "")
-	tc.SetInput("Subject", "Gathering inputs")
+	tc.SetInput("senderEmail", "sankpal22pankaj@gmail.com")
+	tc.SetInput("body", "")
+	tc.SetInput("subject", "Gathering inputs")
 	tc.SetInput("recipientList", "psankpal@gmail.com")
-	tc.SetInput("recipient_status", "has_not_responded")
+	tc.SetInput("recipientStatus", "has_not_responded")
 	act.Eval(tc)
 
 	//check result attr
