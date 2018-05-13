@@ -127,7 +127,12 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	emails := strings.Split(recipientList, ",")
 	emailParentJSON = `{ "contacts": [`
 	count := 0
-	for i := 1; i < len(emails); i++ {
+	for i := 0; i < len(emails); i++ {
+		if emails[i] == "" {
+			count++
+			continue
+		}
+
 		innerJSONContent, _ := sjson.Set("", "email", emails[i])
 		emailParentJSON = emailParentJSON + innerJSONContent
 		if count < len(emails)-1 {

@@ -49,12 +49,12 @@ func TestEval(t *testing.T) {
 
 	//setup attrs testcase#1
 	tc.SetInput("authToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
-	tc.SetInput("surveyName", "MultiPage servey")
+	tc.SetInput("surveyName", "DemoServey")
 	tc.SetInput("type", "invite")
 	tc.SetInput("senderEmail", "sankpal22pankaj@gmail.com")
 	tc.SetInput("body", "")
 	tc.SetInput("subject", "Gathering inputs")
-	tc.SetInput("recipientList", "psankpal@tibco.com")
+	tc.SetInput("recipientList", "psankpal@tibco.com,abcgmail.com")
 	tc.SetInput("recipientStatus", "")
 	act.Eval(tc)
 
