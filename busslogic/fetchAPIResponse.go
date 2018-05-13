@@ -14,10 +14,14 @@ import (
 
 //var declaration
 var surveyID string
-var method string
+
+const (
+	methodGet  = "GET"
+	methodPost = "POST"
+)
 
 // func main() {
-// 	_, issue := SendEmail("z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ", "DemoServey", "sankpal22pankaj@gmail.com", "psankpal@tibco.com", "reminder", "partially_responded", "TestInvite", "")
+// 	_, issue := SendEmail("z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ", "DemoServey", "sankpal22pankaj@gmail.com", "", "reminder", "has_not_responded", "", "")
 // 	if issue != nil {
 // 		fmt.Printf(issue.Error())
 // 	}
@@ -28,7 +32,7 @@ func callURL(method string, url string, bodyContent *bytes.Buffer, accessToken s
 	request.Header.Set("Authorization", "bearer "+accessToken)
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{
-		Timeout: time.Second * 5,
+		Timeout: time.Second * 30,
 	}
 	succResp, errorResp := client.Do(request)
 	if errorResp != nil {
@@ -59,23 +63,20 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	}
 
 	//get surveyID , API call #1
-	method = "GET"
 	surveyIdurl = surveyIdurl + surveyName
 	var jsonBody = []byte("")
-	reqSurveyID, err := callURL(method, surveyIdurl, bytes.NewBuffer(jsonBody), accessToken)
+	reqSurveyID, err := callURL(methodGet, surveyIdurl, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
 		return false, err
 	}
 	surveyID = gjson.Get(reqSurveyID, "data.0.id").String()
-	//log.Infof("surveyId: [%s]", surveyID)
 
 	//set email invite and get Collector id , API Call #2
 	collectorID := ""
 	reqCollectorID := ""
 	collectorURL = collectorURL + surveyID + "/collectors"
-	method = "GET"
 	jsonBody = []byte("")
-	reqCollectorID, err = callURL(method, collectorURL, bytes.NewBuffer(jsonBody), accessToken)
+	reqCollectorID, err = callURL(methodGet, collectorURL, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
 		return false, err
 	}
@@ -87,17 +88,14 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 		}
 	}
 	if collectorID == "" {
-		method = "POST"
 		jsonBody = []byte(`{"type":"email","sender_email":"` + senderEmail + `"}`)
-		reqCollectorID, err = callURL(method, collectorURL, bytes.NewBuffer(jsonBody), accessToken)
+		reqCollectorID, err = callURL(methodPost, collectorURL, bytes.NewBuffer(jsonBody), accessToken)
 		if err != nil {
 			return false, err
 		}
 		collectorID = gjson.Get(reqCollectorID, "id").String()
 	}
-
 	//get message ID , APICall #3
-	method = "POST"
 	messageID := ""
 	messageURL = messageURL + collectorID + "/messages"
 	if body != "" {
@@ -114,22 +112,22 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 		if isInvite {
 			jsonBody = []byte(`{"type":"invite","subject":"` + subject + `"}`)
 		} else {
-			jsonBody = []byte(`{"type":"` + typeofEmail + `","subject":"` + subject + `","recipient_status":"` + recipientStatus + `"}`)
+			jsonBody = []byte(`{"type":"` + typeofEmail + `","recipient_status":"` + recipientStatus + `"}`)
 		}
 	}
-	reqMessageID, err := callURL(method, messageURL, bytes.NewBuffer(jsonBody), accessToken)
+	reqMessageID, err := callURL(methodPost, messageURL, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
 		return false, err
 	}
 	messageID = gjson.Get(reqMessageID, "id").String()
 
 	//add multiple email ids , API Call #4
-	method = "POST"
+	var emailParentJSON string
 	recipientURL = recipientURL + collectorID + "/messages/" + messageID + "/recipients/bulk"
 	emails := strings.Split(recipientList, ",")
-	emailParentJSON := `{ "contacts": [`
+	emailParentJSON = `{ "contacts": [`
 	count := 0
-	for i := 0; i < len(emails); i++ {
+	for i := 1; i < len(emails); i++ {
 		innerJSONContent, _ := sjson.Set("", "email", emails[i])
 		emailParentJSON = emailParentJSON + innerJSONContent
 		if count < len(emails)-1 {
@@ -139,7 +137,7 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	}
 	emailParentJSON = emailParentJSON + "]}"
 	jsonBody = []byte(emailParentJSON)
-	reqRecipientBulk, err := callURL(method, recipientURL, bytes.NewBuffer(jsonBody), accessToken)
+	reqRecipientBulk, err := callURL(methodPost, recipientURL, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
 		return false, err
 	}
@@ -150,11 +148,10 @@ func SendEmail(accessToken string, surveyName string, senderEmail string, recipi
 	}
 
 	//add schedule email date , API Call #5
-	method = "POST"
 	sendURL = sendURL + collectorID + "/messages/" + messageID + "/send"
 	currDate := time.Now().Format("2006-01-02T15:04:05+00:00")
 	jsonBody = []byte(`{ "scheduled_date": "` + currDate + `"}`)
-	_, err = callURL(method, sendURL, bytes.NewBuffer(jsonBody), accessToken)
+	_, err = callURL(methodPost, sendURL, bytes.NewBuffer(jsonBody), accessToken)
 	if err != nil {
 		return false, err
 	}

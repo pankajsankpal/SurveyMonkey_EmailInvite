@@ -49,23 +49,23 @@ func TestEval(t *testing.T) {
 
 	//setup attrs testcase#1
 	tc.SetInput("authToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
-	tc.SetInput("surveyName", "FLG_2_QA_Variety")
+	tc.SetInput("surveyName", "MultiPage servey")
 	tc.SetInput("type", "invite")
 	tc.SetInput("senderEmail", "sankpal22pankaj@gmail.com")
 	tc.SetInput("body", "")
 	tc.SetInput("subject", "Gathering inputs")
 	tc.SetInput("recipientList", "psankpal@tibco.com")
-	tc.SetInput("recipientStatus", "responded")
+	tc.SetInput("recipientStatus", "")
 	act.Eval(tc)
 
 	// testcase #2
-	tc.SetInput("authToken", "UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
-	tc.SetInput("surveyName", "FLG_2_QA_Variety")
+	tc.SetInput("authToken", "z8UFEI9i5ua1WWhI40S1xo8yLlFJFsOPMdwtsB83YYAJy.1fr.zPLQ9mfrh7a2qTZHqdCwwnMHHn9.U0OvXcyx5SjYLRjcMUsE-YE6mcZAB0fg4lP2zoDNg-sL8fxDoQ")
+	tc.SetInput("surveyName", "DemoServey")
 	tc.SetInput("type", "reminder")
 	tc.SetInput("senderEmail", "sankpal22pankaj@gmail.com")
 	tc.SetInput("body", "")
-	tc.SetInput("subject", "Gathering inputs")
-	tc.SetInput("recipientList", "psankpal@gmail.com")
+	tc.SetInput("subject", "")
+	tc.SetInput("recipientList", "")
 	tc.SetInput("recipientStatus", "has_not_responded")
 	act.Eval(tc)
 
